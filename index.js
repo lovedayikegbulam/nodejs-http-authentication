@@ -3,30 +3,33 @@ const http = require("http");
 const hostname = "localhost";
 const port = 8000;
 
-const { findUser } = require("./dbHandlers");
-
+const {getBooks} = require("./requestHandler")
+const { getBodyFromStream } = require("./buffer");
+const { authenticate } = require("./authenticate");
 
 // Add Request Handler to the server
-const requestHandler = function (req, res) {
-	res.setHeader("Content-Type", "application/json");
+const requestHandler = async function (req, res) {
 
-	if (req.url === "/books" && req.method === "GET") {
-		res.end("Hello from /GET Books");
-	} else if (req.url === "/books" && req.method === "POST") {
-		res.end("Hello from /POST Books");
-	} else if (req.url === "/books" && req.method === "PUT") {
-		res.end("Hello from /PUT Books");
-	} else if (req.url === "/books" && req.method === "PATCH") {
-		res.end("Hello from /PATCH Books");
-	} else if (req.url === "/books" && req.method === "DELETE") {
-		res.end("Hello from /DELETE Books");
-	} else {
-		res.writeHead(404);
-		res.end(
-			JSON.stringify({
-				message: "Method Not Supported",
-			})
-		);
+	try {
+
+        const body = await getBodyFromStream(req);
+		req.body = body;
+        // console.log(body)
+
+
+		if (req.url === "/books" && req.method === "GET") 
+            authenticate(req, res, getBooks);
+		if (req.url === "/books" && req.method === "POST")
+			authenticate(req, res, getBooks);
+		if (req.url === "/books" && req.method === "PUT")
+			authenticate(req, res, getBooks);
+		if (req.url === "/books" && req.method === "PATCH")
+			authenticate(req, res, getBooks);
+		if (req.url === "/books" && req.method === "DELETE")
+			authenticate(req, res, getBooks);
+	} catch (error) {
+		res.statusCode = 500;
+		res.end(error.message);
 	}
 };
 
