@@ -3,28 +3,30 @@ const http = require("http");
 const hostname = "localhost";
 const port = 8000;
 
+const {getBooks} = require("./requestHandler")
 const { findUser } = require("./dbHandlers");
 const { getBodyFromStream } = require("./buffer");
 
 // Add Request Handler to the server
 const requestHandler = async function (req, res) {
-	res.setHeader("Content-Type", "application/json");
 
 	try {
-		const header = await getBodyFromStream(req);
-		req.headers = header;
+
+        const body = await getBodyFromStream(req);
+		req.body = body;
+        // console.log(body)
+
 
 		if (req.url === "/books" && req.method === "GET") 
-            console.log(req.headers);
-            res.end("Hello from /GET Books");
+            getBooks(req, res);
 		if (req.url === "/books" && req.method === "POST")
-			res.end("Hello from /POST Books");
+			getBooks(req, res);
 		if (req.url === "/books" && req.method === "PUT")
-			res.end("Hello from /PUT Books");
+			getBooks(req, res);
 		if (req.url === "/books" && req.method === "PATCH")
-			res.end("Hello from /PATCH Books");
+			getBooks(req, res);
 		if (req.url === "/books" && req.method === "DELETE")
-			res.end("Hello from /DELETE Books");
+			getBooks(req, res);
 	} catch (error) {
 		res.statusCode = 500;
 		res.end(error.message);
