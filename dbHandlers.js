@@ -1,6 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const usersDbPath = path.join(__dirname, "db", "users.json");
+const booksDbPath = path.join(__dirname, "db", "books.json");
 
 function findUser(username) {
 	const rawText = fs.readFileSync(usersDbPath, "utf8");
