@@ -4,8 +4,8 @@ const hostname = "localhost";
 const port = 8000;
 
 const {getBooks} = require("./requestHandler")
-const { findUser } = require("./dbHandlers");
 const { getBodyFromStream } = require("./buffer");
+const { authenticate } = require("./authenticate");
 
 // Add Request Handler to the server
 const requestHandler = async function (req, res) {
@@ -18,15 +18,15 @@ const requestHandler = async function (req, res) {
 
 
 		if (req.url === "/books" && req.method === "GET") 
-            getBooks(req, res);
+            authenticate(req, res, getBooks);
 		if (req.url === "/books" && req.method === "POST")
-			getBooks(req, res);
+			authenticate(req, res, getBooks);
 		if (req.url === "/books" && req.method === "PUT")
-			getBooks(req, res);
+			authenticate(req, res, getBooks);
 		if (req.url === "/books" && req.method === "PATCH")
-			getBooks(req, res);
+			authenticate(req, res, getBooks);
 		if (req.url === "/books" && req.method === "DELETE")
-			getBooks(req, res);
+			authenticate(req, res, getBooks);
 	} catch (error) {
 		res.statusCode = 500;
 		res.end(error.message);

@@ -2,7 +2,7 @@ const { findUser } = require("./dbHandlers.js");
 
 function authenticate(req, res, next) {
 	const { username, password } = req.headers;
-	console.log("authenticate", req.headers);
+	// console.log("authenticate", req.headers);
 	const user = findUser(req.headers.username);
 	if (!user) {
 		res.statusCode = 401;
