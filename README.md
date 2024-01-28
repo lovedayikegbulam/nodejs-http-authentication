@@ -1,4 +1,4 @@
-# Alt School Africa Second Semester Assignment 02
+# Alt School Africa Second Semester Assignment 03
 
 This project is an Alt School Africa , software engineering program second semester asignment
 
