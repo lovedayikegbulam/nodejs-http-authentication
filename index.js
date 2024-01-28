@@ -3,6 +3,9 @@ const http = require("http");
 const hostname = "localhost";
 const port = 8000;
 
+const { findUser } = require("./dbHandlers");
+
+
 // Add Request Listener to the server
 const requestHandler = function (request, response) {
 	response.writeHead(200); // Status code 200 = OK
