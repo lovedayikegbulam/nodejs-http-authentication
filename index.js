@@ -1,9 +1,9 @@
 const http = require("http");
 
-const hostname = "localhost";
+const hostname = '0.0.0.0';
 const port = 8000;
 
-const {getBooks} = require("./requestHandler")
+const {getBooks, addBooks} = require("./requestHandler")
 const { getBodyFromStream } = require("./buffer");
 const { authenticate } = require("./authenticate");
 
@@ -20,13 +20,14 @@ const requestHandler = async function (req, res) {
 		if (req.url === "/books" && req.method === "GET") 
             authenticate(req, res, getBooks);
 		if (req.url === "/books" && req.method === "POST")
-			authenticate(req, res, getBooks);
+			authenticate(req, res, addBooks);
 		if (req.url === "/books" && req.method === "PUT")
 			authenticate(req, res, getBooks);
 		if (req.url === "/books" && req.method === "PATCH")
 			authenticate(req, res, getBooks);
 		if (req.url === "/books" && req.method === "DELETE")
 			authenticate(req, res, getBooks);
+		
 	} catch (error) {
 		res.statusCode = 500;
 		res.end(error.message);
@@ -36,5 +37,5 @@ const requestHandler = async function (req, res) {
 // Create the server
 const server = http.createServer(requestHandler);
 server.listen(port, hostname, () => {
-	console.log(`Server running at http://${hostname}:${port}/`);
+	console.log(`Server running at http://localhost:${port}/`);
 });
