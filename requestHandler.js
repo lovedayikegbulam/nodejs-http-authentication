@@ -1,23 +1,43 @@
 const fs = require("fs");
 const path = require("path");
+const url = require('url');
 
-const {addBookToDb} = require("./dbHandlers");
+const {addBookToDb, replaceBookInDb, updateBookInDb, deleteBookInDb, getAllBooksFromDb} = require("./dbHandlers");
+const { request, get } = require("http");
 
 function getBooks(req, res) {
 	// console.log("getBooks", req.body);
 	res.setHeader("Content-Type", "application/json");
-	res.end(JSON.stringify({ books: [{ name: "Harry Potter" }] }));
+	getAllBooksFromDb(res);
 }
 
-function addBooks(req, res) {
-	console.log("addBooks", req.body);
+function addBook(req, res) {
+	// console.log("addBooks", req.body);
 	res.setHeader("Content-Type", "application/json");
-	addBookToDb(req.body);
-	res.end(JSON.stringify(req.body));
+	addBookToDb(req.body, res);
+}
+
+function replaceBook(req, res){
+	// console.log("addBooks", req.body);
+	res.setHeader("Content-Type", "application/json");
+	replaceBookInDb(req.body, res);
+}
+
+function updateBook(req, res){
+	res.setHeader("Content-Type", "application/json");
+	updateBookInDb(req.body, res);
+}
+
+function deleteBook(req, res){
+	res.setHeader("Content-Type", "application/json");
+	deleteBookInDb(req.body, res)
 }
 
 
 module.exports = {
     getBooks,
-	addBooks
+	addBook,
+	replaceBook,
+	updateBook,
+	deleteBook
 }
